@@ -3,9 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>github</title>
+    <title>Github Visualisation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 </head>
 <body>
+    
     <h1>Github Visualisation Project</h1>
+    <script src ="functionScript.js"></script>
+    <!-- 
+    <button id = 'btnUserName'>UsernameField</button>
+    <button id = 'btnRepos'>Repos</button>
+    
+    <button id = 'btnIssues'>Issues</button>
+    <button id = 'btnCommits'>Commits</button>
+    -->
+    <div id = 'divResult'> </div>
+
+    
+    <div class="container-fluid">
+       
+        <div class="row" style="background-color: rgba(23, 93, 126, 0.25);">
+            <div class="mb-2 mt-2 col-md-10">
+                Enter Username: <input id="userNameBox" type="text" placeholder="like taaanmay" />
+            </div>
+        </div>
+        
+        <div class="row" style="background-color: rgba(23, 93, 126, 0.25);">
+            <div class="mb-2 mt-2 col-md-10">
+                Personal Token: <input id="tokenBox" type="text"  />
+                <button onclick="fetchData()">Go </button>
+            </div>
+        </div>
+        
+        <div class="row" style="background-color: rgba(23, 93, 126, 0.25);">
+            <div class="mb-2 mt-2 col-md-10">
+                <div class="well">
+
+                    <p id="public_repos"></p>
+                </div>
+            </div>    
+        </div>
+    </div>
+
 </body>
 </html>
