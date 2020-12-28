@@ -17,7 +17,7 @@
     <button id = 'btnIssues'>Issues</button>
     <button id = 'btnCommits'>Commits</button>
     -->
-    <div id = 'divResult'> </div>
+   
 
     
     <div class="container-fluid">
@@ -34,16 +34,36 @@
                 <button onclick="fetchData()">Go </button>
             </div>
         </div>
+    </div> 
+    
+    
+    <div class="container-fluid">
+        <div class="row" style="background-color: rgba(8, 55, 77, 0.25);">
+                <div class="mb-2 mt-2 col-md-10">                
+                        <img src='' class="rounded mx-auto d-block" id="img">
+                        <!--<img class="mb-4 img-fluid" id="img" src=''> -->
+                </div>    
+         </div>
         
-        <div class="row" style="background-color: rgba(23, 93, 126, 0.25);">
-            <div class="mb-2 mt-2 col-md-10">
-                <div class="well">
-
+         <div class="row" style="background-color: rgba(8, 55, 77, 0.25);">
+                <div class="mb-2 mt-2 col-md-10">
+                    <p id="name"></p>
+                    <p id="login"></p>
+                    <p id="profileURL"></p>
+                    <p id="hireable"></p>
+                    <p id="created_at"></p>
+                    <p id="followers"></p>
+                    <p id="following"></p>
+                    <p id="location"></p>
                     <p id="public_repos"></p>
-                </div>
+                    
+                </div>    
             </div>    
-        </div>
-    </div>
+        
+    </div>   
+    
+    <div id = 'divResult'> </div>
+
 
 </body>
 </html>
