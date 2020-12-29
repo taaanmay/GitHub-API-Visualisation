@@ -113,30 +113,118 @@ async function getUserDetails(userName, token){
 }   
 
 async function generatePieGraph(userName, token){
-  
+
+  clearGraph();
     //Getting Repos  
     const url = `https://api.github.com/users/${userName}/repos`;
     const listOfRepos = await getRequest(url,token);
     
-    let commits = [];
+    let data = [];
     for (let i = 0; i < listOfRepos.length; i++) 
     {
       const repoName = listOfRepos[i].name;
       const commitsList = await getRequest(`https://api.github.com/repos/${userName}/${repoName}/commits`,token).catch((error) => console.error(error));
-      let b = { repo: repoName, commits: commitsList.length };
-      commits.push(b);
+      let b = { key: repoName, value: commitsList.length };
+      data.push(b);
     }
+
+
+    graph(data);
+    
+    
+
         //Make a Pie Chart
-        drawPieChart(commits)
-}
+        //drawPieChart(commits)
 
   
+}
+
+function clearGraph(){
+  while(my_dataviz.firstChild)
+  my_dataviz.removeChild(my_dataviz.firstChild)
+}
+
+async function graph(argData){ 
+
+  var data = [];
+    argData.forEach((element) => {
+      data.push(element.value);
+    });
+
+    var dataNames = [];
+    argData.forEach((element) => {
+      dataNames.push(element.key);
+    });
+  
+
+  // set the dimensions and margins of the graph
+  var width = 450
+      height = 450
+      margin = 40
+  
+  // The radius of the pieplot is half the width or half the height (smallest one). I subtract a bit of margin.
+  var radius = Math.min(width, height) / 2 - margin
+  
+  // append the svg object to the div called 'my_dataviz'
+  var svg = d3.select("#my_dataviz")
+    .append("svg")
+      .attr("width", width)
+      .attr("height", height)
+    .append("g")
+      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+  
+  // Create dummy data
+  //var data = {a: 9, b: 20, c:30, d:8, e:12}
+  
+  // set the color scale
+  var color = d3.scaleOrdinal()
+    .domain(data)
+    .range(['red', 'blue', 'green','purple', 'gray,'])
+    //.range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56"])
+  
+  // Compute the position of each group on the pie:
+  var pie = d3.pie()
+    .value(function(d) {return d.value; })
+  var data_ready = pie(d3.entries(data))
+  
+  // Build the pie chart: Basically, each part of the pie is a path that we build using the arc function.
+  svg
+    .selectAll('whatever')
+    .data(data_ready)
+    .enter()
+    .append('path')
+    .attr('d', d3.arc()
+      .innerRadius(0)
+      .outerRadius(radius)
+    )
+    .attr('fill', function(d){ return(color(d.data.key)) })
+    .attr("stroke", "black")
+    .style("stroke-width", "2px")
+    .style("opacity", 0.7)
+
+    svg.append('text')
+    .text(d => d.dataNames);
+
+  
+}
+
+
+
+
+
+/*
   function drawPieChart(argData) {
 
     var data = [];
     argData.forEach((element) => {
       data.push(element.commits);
     });
+
+    var dataName = [];
+    argData.forEach((element) => {
+      dataName.push(element.repo);
+    });
+    
 
         var svg = d3.select(".chart1"),
               width = svg.attr('width'),
@@ -153,11 +241,16 @@ async function generatePieGraph(userName, token){
         const pie = d3.pie().sort(null);
         const path = d3.arc().outerRadius(radius).innerRadius(0);
         const pies= g.selectAll("arc").data(pie(data)).enter().append("g").attr("class", "arc");
-        pies.append('path').attr("d",path).attr('fill',function(d,i){ return color(i);});
+        const label = d3.arc().outerRadius(radius).innerRadius(radius - 50);
+       // pies.append('path').attr("d",path).attr('fill',function(d,i){ return color(i);});
+        
+       pies.append('path').attr("d",path).attr('fill', d=> color(d.data));
 
-
+       dataName = [ 'Hello', 'Ji', 'Check']
+        pies.append('text').attr('transform',function(d){
+          return "translate(" + label.centroid(d) + ")";
+        })
+        .text(d => d.data)
 
   }
-  
-  
-  
+  */
