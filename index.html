@@ -8,6 +8,7 @@
 </head>
 <body>
     
+    <script src="https://d3js.org/d3.v4.js"></script>
     <h1>Github Visualisation Project</h1>
     
     <!-- 
@@ -18,7 +19,6 @@
     <button id = 'btnCommits'>Commits</button>
     -->
    
-
     <!-- Username and Personal Token Field Container-->
     <div class="container-fluid">
        
@@ -37,11 +37,15 @@
     </div> 
     
     
+    
     <!-- User Data and Image Container-->
     
     <!--<div class="container-fluid" style="display: flex; justify-content: space-around;">-->
-        <div class="container-fluid" style="display: flex; justify-self: right; padding:5cm;">   
-        <div class="row" style="background-color: rgba(8, 55, 77, 0.25)" >
+        <!--<div class="container-fluid" style="display: flex; justify-self: right; padding:5cm;">   -->
+
+    <div class="container-fluid" style="display: flex; justify-self: right; background-color: rgba(77, 8, 43, 0.25)">       
+        <div class="row"  width="190" height="130">
+            <h2>User Data </h2>
                 <div class="mb-2 mt-2 col-md-10">                
                         <!--<img src='' class="rounded mx-auto d-block" id="img">-->
                         <img class="mb-4 img-fluid" id="img" src=''> 
@@ -49,7 +53,7 @@
                 </div>    
          </div>
         
-         <div class="row"  style="background-color: rgba(8, 55, 77, 0.25);">
+         <div class="row"   >
                 <div class="mb-2 mt-2 col-md-10">
                     <p class="text-right" id="name"></p>
                     <p class="text-right" id="login"></p>
@@ -73,14 +77,9 @@
 
     <div class="chartCarouselContainer">
         <div class="main-carousel">
-
-            
-
             <div class="carousel-cell cell">
-                <div class="abc">
                     <h2 class="title">Number of Commits done on Each Repository </h2>
-                    <svg class="chart1" width="900" height="500"> </svg>
-                </div>
+                    <div id="my_dataviz"></div>    
             </div>
           
     </div>
@@ -89,7 +88,9 @@
 
 
 
-    <script src="https://d3js.org/d3.v6.min.js"></script>
+
+    
+    
     <script src ="functionScript.js"></script>
     
 
