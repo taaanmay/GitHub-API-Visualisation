@@ -74,23 +74,33 @@
     <div id = 'divResult'> </div>
 
    
+<!-- Pie Chart of Number of Commits done by the user-->
+<div class="container-fluid">
+    <div class="col-md-6">
+        <div class="well">
+            <h2 class="title">Number of Commits done on Each Repository </h2>
+            <canvas id="myChart"></canvas>
+        </div>
+    </div>
+</div>
 
-    <div class="chartCarouselContainer">
+
+<!-- Bar Chart showing Number of Contributions in a Repo made in a Week in last 12 months-->
+<!--  
+<div class="chartCarouselContainer">
         <div class="main-carousel">
             <div class="carousel-cell cell">
-                    <h2 class="title">Number of Commits done on Each Repository </h2>
-                    <div id="my_dataviz"></div>    
+                    <h2 class="title">Number of Contributions made in a Repo last 12 Months </h2>
+                    <div id="my_dataviz"></div>
+                    <canvas id="myChart" width="100" height="100"></canvas>       
             </div>
           
     </div>
-
-
-
-
+-->
 
 
     
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
     <script src ="functionScript.js"></script>
     
 
