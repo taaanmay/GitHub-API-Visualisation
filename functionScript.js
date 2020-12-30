@@ -2,15 +2,12 @@
    
    async function fetchData(){
     var userName = document.getElementById("userNameBox").value;
-   // var token    = document.getElementById("tokenBox").value;
+    var token    = document.getElementById("tokenBox").value;
 
-   // var userName = 'taaanmay';
-    var token = '902a3fb5aae5a46fa00aa1ad5e05774052511ff0';
-   // getRepos(userName, token);
     getUserDetails(userName, token);
-    //d3.select('h1').style('color','red');
     generatePieGraph(userName,token);
     getLanguageGraph(userName, token);
+    popularRepos(userName, token)
       
 }
 async function getRequest(url, token) {
@@ -28,43 +25,6 @@ async function getRequest(url, token) {
         return data;
 }
 
-
-    
-async function getRepos(userName, token){
-            
-            clear();
-
-            const url = `https://api.github.com/users/${userName}/repos`;
-        
-            //const response = await getRequest(url)
-            //const result = await response.json()
-
-            const result = await getRequest(url, token)
-            var count = -1;
-            result.forEach(i=>{
-                count++;
-               // const anchor = document.createElement("a")
-                //anchor.href = i.html_url
-                //anchor.href = ""
-                //anchor.textContent = i.full_name;
-              //  datasetRepos[count] = i.full_name;
-                
-
-                //divResult.appendChild(anchor)
-               // divResult.appendChild(document.createElement("br"))
-            })
-            /*
-            let public_repos = document.getElementById('public_repos');
-            public_repos.innerHTML = `<b>Public Repos: </b>${user_info.public_repos}`;
-            */
-        function clear(){
-            while(divResult.firstChild)
-                divResult.removeChild(divResult.firstChild)
-        }
-
-       
-
-}
 
 async function getUserDetails(userName, token){
         const url = `https://api.github.com/users/${userName}`;
@@ -97,6 +57,7 @@ async function getUserDetails(userName, token){
     
 }   
 
+// Number of commits in a repo
 async function generatePieGraph(userName, token){
 
   
@@ -131,17 +92,79 @@ async function generatePieGraph(userName, token){
   
 }
 
-async function createPieGraph(dataTable, dataName){
 
+// Takes list of starred repo from the user and plot them along their stargzer's count 
+async function popularRepos(userName, token){
+
+  let labelArray = [];
+  let dataArray = [];
+
+  // Getting Repos that are Starred by the User
+  var url = `https://api.github.com/users/${userName}/starred`;
+  const repoData = await getRequest(url, token)
   
-  var ctx = document.getElementById('myChart').getContext('2d');
+ // Getting the number of stargazzers of each repos from all starred
+  
+ for(i in repoData){
+  var owner = repoData[i].owner.login;
+  var repoName = repoData[i].name;
+
+  var url2 = `https://api.github.com/repos/${owner}/${repoName}`;
+  const starredRepo = await getRequest(url, token);
+  labelArray.push(repoName);
+  dataArray.push(starredRepo[i].stargazers_count);
+
+ }
+
+  //Plot the bar graph where the user's starred repositories are plotted against the number of contributors to that contributors
+
+  var ctx = document.getElementById('myPopularStarredRepoChart').getContext('2d');  
+  createBarGraph(labelArray, dataArray, ctx, 'Number of Stargazers');
+
+}
+
+// Bar graph of languages used by the user in all repositories. 
+async function getLanguageGraph(userName, token) {
+  
+  // Getting Repos of the User
+  const url = `https://api.github.com/users/${userName}/repos`;
+  const repoData = await getRequest(url, token)
+  
+  let labelArray = [];
+  let dataArray = [];
+  
+  // Getting Languages of repos
+  for (i in repoData) {
+      let url = `https://api.github.com/repos/${userName}/${repoData[i].name}/languages`;
+      let repoLanguages = await getRequest(url, token).catch(error => console.error(error));
+
+
+      for (l in repoLanguages) {
+          var index = labelArray.indexOf(l); 
+          if(index != -1){  
+            dataArray[index] = dataArray[index] + repoLanguages[l]; // Add number of bytes to the associated index of the language.
+
+          } else {
+              labelArray.push(l); // Create new language entry 
+              dataArray.push(repoLanguages[l]);
+              
+          }
+      }
+
+  }
+  var ctx = document.getElementById('myLanguagesChart').getContext('2d');  
+createBarGraph(labelArray, dataArray, ctx, 'Bytes of Code');
+}
+ 
+async function createBarGraph(labelArray, dataArray, ctx, inputLabel){
+
   var myChart = new Chart(ctx, {
-      type: 'pie',
+      type: 'bar',
       data: {
-          labels: dataTable,
+          labels: labelArray,
           datasets: [{
-              label: 'Total Number of Commits',
-              data: dataName,
+              label: inputLabel,
+              data: dataArray,
               backgroundColor: [
                   'rgba(255, 99, 132, 0.2)',
                   'rgba(54, 162, 235, 0.2)',
@@ -179,49 +202,18 @@ async function createPieGraph(dataTable, dataName){
 
 }
 
-async function getLanguageGraph(userName, token) {
-  
-  // Getting Repos of the User
-  const url = `https://api.github.com/users/${userName}/repos`;
-  const repoData = await getRequest(url, token)
-  
-  let labelArray = [];
-  let dataArray = [];
-  
-  // Getting Languages of repos
-  for (i in repoData) {
-      let url = `https://api.github.com/repos/${userName}/${repoData[i].name}/languages`;
-      let repoLanguages = await getRequest(url, token).catch(error => console.error(error));
 
-
-      for (l in repoLanguages) {
-          var index = labelArray.indexOf(l); 
-          if(index != -1){  
-            dataArray[index] = dataArray[index] + repoLanguages[l]; // Add number of bytes to the associated index of the language.
-
-          } else {
-              labelArray.push(l); // Create new language entry 
-              dataArray.push(repoLanguages[l]);
-              
-          }
-      }
-
-  }
-createBarGraph(labelArray, dataArray);
-}
-          
-          
-async function createBarGraph(labelArray, dataArray){
+async function createPieGraph(dataTable, dataName){
 
   
-  var ctx = document.getElementById('myBarChart').getContext('2d');
+  var ctx = document.getElementById('myChart').getContext('2d');
   var myChart = new Chart(ctx, {
-      type: 'bar',
+      type: 'pie',
       data: {
-          labels: labelArray,
+          labels: dataTable,
           datasets: [{
-              label: 'Bytes of Code: ',
-              data: dataArray,
+              label: 'Total Number of Commits',
+              data: dataName,
               backgroundColor: [
                   'rgba(255, 99, 132, 0.2)',
                   'rgba(54, 162, 235, 0.2)',
