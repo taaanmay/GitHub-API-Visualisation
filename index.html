@@ -11,13 +11,7 @@
     <script src="https://d3js.org/d3.v4.js"></script>
     <h1>Github Visualisation Project</h1>
     
-    <!-- 
-    <button id = 'btnUserName'>UsernameField</button>
-    <button id = 'btnRepos'>Repos</button>
     
-    <button id = 'btnIssues'>Issues</button>
-    <button id = 'btnCommits'>Commits</button>
-    -->
    
     <!-- Username and Personal Token Field Container-->
     <div class="container-fluid">
@@ -70,9 +64,6 @@
     </div>   
     
 
-    
-    <div id = 'divResult'> </div>
-
    
 <!-- Pie Chart of Number of Commits done by the user-->
 <div class="container-fluid">
@@ -90,10 +81,26 @@
     <div class="col-md-6">
         <div class="well">
             <h2 class="title">Languages Used by the User</h2>
-            <canvas id="myBarChart"></canvas>
+            <canvas id="myLanguagesChart"></canvas>
         </div>
     </div>
 </div>
+
+
+<!-- Bar Chart showing Number of Stargazers of repos from the list of User's Starred List-->
+ 
+<div class="container-fluid" >       
+    <div class="col-md-6">
+        <div class="well">
+                    <h2 class="title">Most Popular Repositories in User's Starred List</h2>
+                    <div id="my_dataviz"></div>
+                    <canvas id="myPopularStarredRepoChart"></canvas>       
+        </div>
+          
+    </div>
+</div>    
+
+    
 
 
 
@@ -105,3 +112,4 @@
 
 </body>
 </html>
+
