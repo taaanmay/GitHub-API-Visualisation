@@ -26,5 +26,6 @@ The second graph of the project visualises the information regarding User's prof
 
 
 
-The third graph visualises the most popular repositories from the user's starred list. The popularity is measured by seeing the number of stargazers for that project.
+The third graph visualises the most popular repositories from the user's starred list. The popularity is measured by seeing the no. of stargazers of that project.
+
 ![Popular Repositories from User's Starred List](pictures/Starred_Repo.png)
