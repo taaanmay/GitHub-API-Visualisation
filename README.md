@@ -15,12 +15,15 @@ Then you will need to enter a Username and a Personal Aunthentication Token that
 
 # Result
 The first graph of the project visualises the information showing which repostiories the user has worked the most in. It is done by counting the number of commits made per repository.
+
 ![Number of Commits Per Repository](pictures/Commits.png)
 
 
 
 
-The second graph of the project visualises the information regarding User's profficiency in different programming languages. 
+
+The second graph of the project visualises the information regarding User's profficiency in different programming languages.
+
 ![Languages Used by User](pictures/Languages.png)
 
 
